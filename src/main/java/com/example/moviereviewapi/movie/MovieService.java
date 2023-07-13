@@ -1,5 +1,6 @@
 package com.example.moviereviewapi.movie;
 
+import com.example.moviereviewapi.exception.MovieAlreadyExistsException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,5 +21,15 @@ public class MovieService {
 
     public List<Movie> findAllMovies() {
         return repository.findAll();
+    }
+
+    public Movie createMovie(Movie newMovie) {
+        Optional<Movie> movieByImdbID = repository.findMovieByImdbId(
+                newMovie.getImdbId());
+        if (movieByImdbID.isPresent()) {
+            throw new MovieAlreadyExistsException(
+                    "The movie with IMDB ID:" + newMovie.getImdbId() + " already exists");
+        }
+        return repository.save(newMovie);
     }
 }

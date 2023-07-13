@@ -2,10 +2,7 @@ package com.example.moviereviewapi.movie;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -31,4 +28,12 @@ public class MovieController {
         return movieFound.map(movie -> new ResponseEntity<>(movie, HttpStatus.OK))
                          .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
+
+    @PostMapping()
+    public ResponseEntity<Movie> createMovie(@RequestBody Movie newMovie) {
+        System.out.println("Controller post captured");
+        return new ResponseEntity<>(movieService.createMovie(newMovie),
+                                    HttpStatus.CREATED);
+    }
+
 }
