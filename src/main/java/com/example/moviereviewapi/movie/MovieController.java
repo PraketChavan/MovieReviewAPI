@@ -13,7 +13,7 @@ public class MovieController {
 
     private final MovieService movieService;
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<List<Movie>> getAllMovies() {
         return new ResponseEntity<>(movieService.findAllMovies(), HttpStatus.OK);
     }
@@ -31,7 +31,6 @@ public class MovieController {
 
     @PostMapping()
     public ResponseEntity<Movie> createMovie(@RequestBody Movie newMovie) {
-        System.out.println("Controller post captured");
         return new ResponseEntity<>(movieService.createMovie(newMovie),
                                     HttpStatus.CREATED);
     }
