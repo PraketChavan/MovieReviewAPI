@@ -1,5 +1,7 @@
 package com.example.moviereviewapi.movie;
 
+import com.example.moviereviewapi.genre.GenreType;
+import com.example.moviereviewapi.genre.MovieGenre;
 import com.example.moviereviewapi.review.Review;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -30,8 +32,12 @@ public class Movie {
     @Column(name = "release_date", nullable = false)
     private Date releaseDate;
 
+    @OneToMany(mappedBy = "movieId")
+    private List<MovieGenre> genre;
+
     @Column(name = "trailer_link")
     private String trailerLink;
+
     @OneToMany(mappedBy = "movieId")
     private List<Review> review = new ArrayList<>();
 
