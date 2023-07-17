@@ -8,12 +8,12 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/v1/movie")
+@RequestMapping("/api/v1/movie/")
 public class MovieController {
 
     private final MovieService movieService;
 
-    @GetMapping
+    @GetMapping("all")
     public ResponseEntity<List<Movie>> getAllMovies() {
         return new ResponseEntity<>(movieService.findAllMovies(), HttpStatus.OK);
     }
@@ -22,17 +22,22 @@ public class MovieController {
         this.movieService = movieService;
     }
 
-    @GetMapping("/{imdbId}")
+    @GetMapping("{imdbId}")
     public ResponseEntity<Movie> getMovieByImdbId(@PathVariable String imdbId) {
         Optional<Movie> movieFound = movieService.findMovieByImdbId(imdbId);
         return movieFound.map(movie -> new ResponseEntity<>(movie, HttpStatus.OK))
                          .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @PostMapping()
-    public ResponseEntity<Movie> createMovie(@RequestBody Movie newMovie) {
+    @PostMapping("add")
+    public ResponseEntity<Movie> addMovie(@RequestBody Movie newMovie) {
         return new ResponseEntity<>(movieService.createMovie(newMovie),
                                     HttpStatus.CREATED);
+    }
+
+    @PostMapping("addall")
+    public ResponseEntity<List<Movie>> addAllMovie(@RequestBody List<Movie> newMovies) {
+        return new ResponseEntity<>(movieService.createAllMovie(newMovies), HttpStatus.CREATED);
     }
 
 }

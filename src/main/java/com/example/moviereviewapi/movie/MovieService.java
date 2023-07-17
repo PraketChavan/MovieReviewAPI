@@ -32,4 +32,8 @@ public class MovieService {
         }
         return repository.save(newMovie);
     }
+
+    public List<Movie> createAllMovie(List<Movie> newMovies) {
+        return repository.saveAll(newMovies);
+    }
 }

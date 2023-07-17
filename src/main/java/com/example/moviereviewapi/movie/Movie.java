@@ -1,9 +1,14 @@
 package com.example.moviereviewapi.movie;
 
+import com.example.moviereviewapi.review.Review;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -16,21 +21,18 @@ public class Movie {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "imdbid")
+    @Column(name = "imdb_id", unique = true, nullable = false, updatable = false)
     private String imdbId;
 
+    @Column(nullable = false, updatable = false)
     private String title;
 
-    @Column(name = "releasedate")
-    private String releaseDate;
+    @Column(name = "release_date", nullable = false)
+    private Date releaseDate;
 
-    @Column(name = "trailerlink")
+    @Column(name = "trailer_link")
     private String trailerLink;
+    @OneToMany(mappedBy = "movieId")
+    private List<Review> review = new ArrayList<>();
 
-    public Movie(String imdbId, String title, String releaseDate, String trailerLink) {
-        this.imdbId = imdbId;
-        this.title = title;
-        this.releaseDate = releaseDate;
-        this.trailerLink = trailerLink;
-    }
 }
